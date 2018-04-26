@@ -72,7 +72,6 @@ testem.log
 
 # Compiled Output #
 ###################
-/dist
 /tmp
 /out-tsc
 /build

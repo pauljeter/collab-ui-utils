@@ -1,6 +1,6 @@
 {
   "name": "@collab-ui/utils",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Collab UI Utility functions.",
   "author": "Cisco Systems, Inc.",
   "homepage": "http://collab-ui.cisco.com/",
@@ -18,7 +18,7 @@
   "scripts": {
     "build": "rimraf dist && babel src --out-dir dist",
     "prepublishOnly": "npm run build",
-    "release": "toolkit-pub",
+    "release": "release",
     "watch": "npm-watch"
   },
   "watch": {
