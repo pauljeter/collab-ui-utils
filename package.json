@@ -1,0 +1,68 @@
+{
+  "name": "@collab-ui/-utils",
+  "version": "2.0.0",
+  "description": "Collab UI Utility functions.",
+  "author": "Cisco Systems, Inc.",
+  "homepage": "http://collab-ui.cisco.com/",
+  "license": "MIT",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/collab-ui/collab-ui-utils"
+  },
+  "bugs": {
+    "url": "https://github.com/collab-ui/collab-ui-utils/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "./src/index.js",
+  "scripts": {
+    "build": "rimraf dist && babel src --out-dir dist",
+    "prepublishOnly": "npm run build",
+    "release": "toolkit-pub",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": "src/*.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "chalk": "^2.3.1",
+    "csso": "^3.3.1",
+    "dss": "dsswg/dss",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "jsonfile": "^4.0.0",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.5.3",
+    "showdown": "^1.8.3"
+  },
+  "devDependencies": {
+    "@collab-ui/release": "^2.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-lodash": "^2.4.5",
+    "npm-watch": "^0.3.0"
+  },
+  "babel": {
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  }
+}
