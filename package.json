@@ -1,6 +1,6 @@
 {
   "name": "@collab-ui/utils",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Collab UI Utility functions.",
   "author": "Cisco Systems, Inc.",
   "homepage": "http://collab-ui.cisco.com/",
@@ -15,9 +15,12 @@
   },
   "main": "./dist/index.js",
   "module": "./src/index.js",
+  "bin": {
+    "post-to-teams": "./dist/postToTeams.js"
+  },
   "scripts": {
     "build": "rimraf dist && babel src --out-dir dist",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "yarn build",
     "release": "release",
     "watch": "npm-watch"
   },
@@ -27,6 +30,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "chalk": "^2.3.1",
+    "ciscospark": "^1.32.16",
     "csso": "^3.3.1",
     "dss": "dsswg/dss",
     "fs-extra": "^5.0.0",
@@ -35,7 +39,8 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.5.3",
-    "showdown": "^1.8.3"
+    "showdown": "^1.8.3",
+    "yargs": "^11.0.0"
   },
   "devDependencies": {
     "@collab-ui/release": "^2.0.0",
@@ -48,7 +53,8 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-lodash": "^2.4.5",
-    "npm-watch": "^0.3.0"
+    "npm-watch": "^0.3.0",
+    "yarn": "^1.7.0"
   },
   "babel": {
     "plugins": [
