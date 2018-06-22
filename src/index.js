@@ -7,3 +7,4 @@ export * from './emptyDir';
 export * from './ensureFile';
 export * from './generateCss';
 export * from './markdownToHtml';
+export * from './postToTeams';
