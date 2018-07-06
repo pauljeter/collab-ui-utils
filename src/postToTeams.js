@@ -1,6 +1,11 @@
+#!/usr/bin/env node
+'use strict';
+
 const args = require('yargs').argv;
 const webexTeams = require('ciscospark');
-const pkg = require('./package.json');
+const cwd = process.cwd();
+const packageFile = cwd + '/package.json';
+const pkg = require(packageFile);
 
 function promptCiscoWebexToken() {
   return new Promise(function(resolve, reject) {
@@ -44,5 +49,3 @@ export function sendWebexTeamsMessage() {
       });
     });
 }
-
-sendWebexTeamsMessage();
