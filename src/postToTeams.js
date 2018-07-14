@@ -49,3 +49,5 @@ export function sendWebexTeamsMessage() {
       });
     });
 }
+
+sendWebexTeamsMessage();

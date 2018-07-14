@@ -39,7 +39,10 @@ function addSection(block) {
     examples: {},
   };
   section.variables = block.variable ? block.variable : undefined;
-  section.variations.html = block.html ? block.html : undefined;
+  section.examples.html = block.html ? block.html : undefined;
+  section.examples.js = block.js ? block.js : undefined;
+  section.examples.ts = block.ts ? block.ts : undefined;
+  section.examples.scss = block.scss ? block.scss : undefined;  section.variations.html = block.html ? block.html : undefined;
   section.variations.react = block.js ? block.js : undefined;
   section.variations.angular = block.ts ? block.ts : undefined;
   section.variations.scss = block.scss ? block.scss : undefined;
