@@ -11,13 +11,13 @@ const _ = require('lodash');
 const docsFramework = (baseJSON, parsedComments, isCollabUI) => {
   const compiledJSON = compileJSON.compile(baseJSON, parsedComments, isCollabUI);
 
-  return isCollabUI ? compiledJSON : compileJSON.filterJSON(compiledJSON);
-}
+  return compiledJSON;
+};
 
 
 export function comments(filesGlob, outputDir, filename, baseJSON, isCollabUI) {
   return glob(filesGlob, null, (err, files) => {
-    const commentBlocks = [];
+    let commentBlocks = [];
 
     _.forEach(files, (file) => {
       const fileContents = fs.readFileSync(file);
@@ -26,9 +26,7 @@ export function comments(filesGlob, outputDir, filename, baseJSON, isCollabUI) {
           return;
         }
 
-        _.forEach(parsedObject.blocks, (block) => {
-          commentBlocks.push(block);
-        });
+        commentBlocks = [...commentBlocks, parsedObject.blocks];
       });
     });
 
