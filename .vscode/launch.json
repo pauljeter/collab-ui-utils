@@ -9,7 +9,11 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${file}"
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "build:data"
+      ]
     }
   ]
 }

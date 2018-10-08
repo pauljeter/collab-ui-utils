@@ -1,117 +1,108 @@
 const _ = require('lodash');
-const docsData = {};
-
-function addCategory(block) {
-  const newCat = {
-    name: block.category,
-    components: {}
-  }
-  return docsData[block.category] = newCat;
-}
+let docsData = [];
 
 function addComponent(block) {
   const component = {
-    name: block.name,
-    component: block.component,
+    name: block.component,
     description: block.description,
-    sections: []
-  }
-  const category = findCategory(block);
-  return category.components[block.component] = component;
+    sections: [],
+    props: {}
+  };
+
+  return (docsData = [component, ...docsData]);
 }
 
-function updateComponent(block) {
-  const category = findCategory(block);
-  const component = category.components[block.component];
-  _.set(component, 'name', block.name);
+function updateComponent(componentIndex, block) {
+  const component = docsData[componentIndex];
+  _.set(component, 'name', block.component);
   _.set(component, 'description', block.description);
-  return category.components[block.component];
+  return (docsData[componentIndex] = component);
 }
 
 function addSection(block) {
   const section = {
-    name: block.name,
-    description: block.description,
-    category: block.category,
-    component: block.component,
-    section: block.section,
-    variations: {},
-    examples: {},
+    name: block.section,
+    variations: {}
   };
-  section.variables = block.variable ? block.variable : undefined;
-  section.examples.html = block.html ? block.html : undefined;
-  section.examples.js = block.js ? block.js : undefined;
-  section.examples.ts = block.ts ? block.ts : undefined;
-  section.examples.scss = block.scss ? block.scss : undefined;  section.variations.html = block.html ? block.html : undefined;
-  section.variations.react = block.js ? block.js : undefined;
+
+  section.variations.core = block.html ? block.html : undefined;
+  section.variations.js = block.js ? block.js : undefined;
+  section.variations.react = block.react ? block.react : undefined;
   section.variations.angular = block.ts ? block.ts : undefined;
   section.variations.scss = block.scss ? block.scss : undefined;
-  section.params = block.param ? block.param : undefined;
-  section.states = block.state ? block.state : undefined;
-  section.props = block.props ? block.props : undefined;
   section.hidecode = block.hidecode ? block.hidecode : undefined;
 
-  const component = findComponent(block);
-  return component.sections.push(section);
+  return docsData[0].sections.push(section);
 }
 
-function addVariation(block) {
-  const variation = {
-    variation: block.variation,
+function addProp(block) {
+  const prop = {
+    name: block.prop.name,
+    type: block.prop.type,
+    description: block.prop.description,
+    default: block.prop.default,
+    required: block.prop.required
+  };
+
+  docsData[0].props[block.prop.library]
+    ? docsData[0].props[block.prop.library].push(prop)
+    : (docsData[0].props[block.prop.library] = [prop]);
+
+  return docsData;
+}
+
+function ensureComponent(block, componentIndex) {
+  if (componentIndex < 0) {
+    addComponent(block);
+  } else if (componentIndex >= 0) {
+    updateComponent(componentIndex, block);
   }
-  variation.variables = block.variable ? block.variable : undefined;
-  variation.html = block.html ? block.html : undefined;
-  variation.js = block.js ? block.js : undefined;
-  variation.scss = block.scss ? block.scss : undefined;
-  variation.params = block.param ? block.param : undefined;
-  variation.states = block.state ? block.state : undefined;
-
-  const section = findSection(block);
-  return section.variations[block.variation] = variation;
 }
 
-function findCategory(block) {
-  return docsData[block.category];
+function ensureSection(block) {
+  if (block.section && findSection(block) < 0) {
+    addSection(block);
+  }
+}
+
+function ensureProps(block) {
+  if (block.prop && findProps(block) < 0) {
+    addProp(block);
+  }
 }
 
 function findComponent(block) {
-  return _.get(docsData[block.category].components, block.component, false);
+  return _.findIndex(docsData, { name: block.component });
 }
 
 function findSection(block) {
-  return _.get(docsData[block.category].components[block.component].sections, block.section);
+  return _.findIndex(docsData[0].sections, { name: block.section });
 }
 
-function findVariation(block) {
-  return _.get(docsData[block.category].components[block.component].sections[block.section].variations, block.variation);
-}
-
-function createDocsJson(blocks) {
-
-  _.forEach(blocks, (block) => {
-    if (!block.category || !block.component) {
-      return;
-    }
-
-    if (!_.find(docsData[block.category])) {
-      addCategory(block);
-    }
-
-    if (!findComponent(block)) {
-      addComponent(block);
-    } else if (!block.section) {
-      updateComponent(block);
-    }
-
-    if (block.section && !findSection(block)) {
-      addSection(block);
-    }
-
-    if (block.variation && !findVariation(block)) {
-      addVariation(block);
-    }
+function findProps(block) {
+  return _.findIndex(docsData[0].props[block.prop.library], {
+    name: block.name
   });
+}
 
+function createDocsJson(parsedFileComments) {
+  _.forEach(parsedFileComments, fileComments => {
+    //Every file must have component attribute at the top of it
+    if (!fileComments[0].component) return;
+
+    _.forEach(fileComments, comment => {
+      const newCommentBlock = {
+        component: fileComments[0].component,
+        ...comment
+      };
+
+      ensureComponent(newCommentBlock, findComponent(newCommentBlock));
+      ensureSection(newCommentBlock);
+      ensureProps(newCommentBlock);
+    });
+
+    return;
+  });
 
   return docsData;
 }
