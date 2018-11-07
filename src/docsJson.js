@@ -26,8 +26,8 @@ function addSection(block) {
   };
 
   section.variations.core = block.html ? block.html : undefined;
-  section.variations.js = block.js ? block.js : undefined;
-  section.variations.react = block.react ? block.react : undefined;
+  // section.variations.js = block.js ? block.js : undefined;
+  section.variations.react = block.js ? block.js : block.react ? block.react : undefined;
   section.variations.angular = block.ts ? block.ts : undefined;
   section.variations.scss = block.scss ? block.scss : undefined;
   section.hidecode = block.hidecode ? block.hidecode : undefined;

@@ -6,7 +6,7 @@ const compareSections = (navSections, docSections) => {
       const newAgg = [...agg];
 
       const aggItem = docSections.filter(componentSection => {
-        if (ele.section === componentSection.name) {
+        if (ele.name === componentSection.name) {
           const newObject = {
             ...ele,
             ...componentSection,
@@ -34,7 +34,7 @@ export function compile(navJSON, libraryJSON) {
   // Loop through Nav JSON Object looking at each Key
   const newObject = navJSON.reduce((agg, component, index) => {
     const componentIndex = _.findIndex(libraryJSON, {
-      name: component.component
+      name: component.name
     });
 
     if (componentIndex >= 0 && component.sections) {
